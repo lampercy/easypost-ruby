@@ -2,7 +2,6 @@ require 'cgi'
 require 'set'
 require 'openssl'
 require 'rest_client'
-require 'multi_json'
 
 # Resources
 require 'easypost/version'
@@ -97,8 +96,8 @@ module EasyPost
     rescue RestClient::ExceptionWithResponse => e
       if response_code = e.http_code and response_body = e.http_body
         begin
-          response_json = MultiJson.load(response_body, :symbolize_keys => true)
-        rescue MultiJson::DecodeError
+          response_json = JSON.load(response_body, :symbolize_keys => true)
+        rescue JSON::DecodeError
           raise Error.new("Invalid response from API, unable to decode.", response_code, response_body)
         end
         begin
@@ -115,8 +114,8 @@ module EasyPost
     end
 
     begin
-      response_json = MultiJson.load(response.body, :symbolize_keys => true)
-    rescue MultiJson::DecodeError
+      response_json = JSON.load(response.body, :symbolize_keys => true)
+    rescue JSON::DecodeError
       raise Error.new("Invalid response object from API, unable to decode.", response.code, response.body)
     end
 

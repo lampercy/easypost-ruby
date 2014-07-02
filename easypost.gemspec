@@ -19,6 +19,5 @@ Gem::Specification.new do |spec|
   spec.require_path  = 'lib'
 
   spec.add_dependency('rest-client', '~> 1.4')
-  spec.add_dependency('multi_json', '>= 1.0.4', '< 2')
   spec.add_development_dependency('rspec', "~> 2.13.0")
 end

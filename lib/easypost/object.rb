@@ -20,12 +20,12 @@ module EasyPost
     end
 
     def to_s(*args)
-      MultiJson.dump(@values, :pretty => true)
+      JSON.dump(@values, :pretty => true)
     end
 
     def inspect()
       id_string = (self.respond_to?(:id) && !self.id.nil?) ? " id=#{self.id}" : ""
-      "#<#{self.class}:#{id_string}> JSON: " + MultiJson.dump(@values, :pretty => true)
+      "#<#{self.class}:#{id_string}> JSON: " + JSON.dump(@values, :pretty => true)
     end
 
     def refresh_from(values, api_key, partial=false)
@@ -62,7 +62,7 @@ module EasyPost
     end
 
     def to_json(options = {})
-      MultiJson.dump(@values)
+      JSON.dump(@values)
     end
 
     def as_json(options = {})
