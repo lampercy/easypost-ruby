@@ -96,8 +96,8 @@ module EasyPost
     rescue RestClient::ExceptionWithResponse => e
       if response_code = e.http_code and response_body = e.http_body
         begin
-          response_json = JSON.load(response_body, :symbolize_keys => true)
-        rescue JSON::DecodeError
+          response_json = symbolize_keys(JSON.load(response_body))
+        rescue JSON::ParserError
           raise Error.new("Invalid response from API, unable to decode.", response_code, response_body)
         end
         begin
@@ -114,8 +114,8 @@ module EasyPost
     end
 
     begin
-      response_json = JSON.load(response.body, :symbolize_keys => true)
-    rescue JSON::DecodeError
+      response_json = symbolize_keys(JSON.load(response.body))
+    rescue JSON::ParserError
       raise Error.new("Invalid response object from API, unable to decode.", response.code, response.body)
     end
 
@@ -126,5 +126,13 @@ module EasyPost
 
   def self.execute_request(opts)
     RestClient::Request.execute(opts)
+  end
+
+  def self.symbolize_keys(old_hash)
+    new_hash = {}
+    old_hash.each do |k, v|
+      new_hash[k.to_sym] = v
+    end
+    new_hash
   end
 end

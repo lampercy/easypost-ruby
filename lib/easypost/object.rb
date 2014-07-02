@@ -20,12 +20,12 @@ module EasyPost
     end
 
     def to_s(*args)
-      JSON.dump(@values, :pretty => true)
+      JSON.dump(@values)
     end
 
     def inspect()
       id_string = (self.respond_to?(:id) && !self.id.nil?) ? " id=#{self.id}" : ""
-      "#<#{self.class}:#{id_string}> JSON: " + JSON.dump(@values, :pretty => true)
+      "#<#{self.class}:#{id_string}> JSON: " + JSON.dump(@values)
     end
 
     def refresh_from(values, api_key, partial=false)
