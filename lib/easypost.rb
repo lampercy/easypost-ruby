@@ -125,7 +125,19 @@ module EasyPost
   private
 
   def self.execute_request(opts)
-    RestClient::Request.execute(opts)
+    retried = 0
+    
+    begin
+      RestClient::Request.execute(opts)
+    rescue Exception => e
+      if retried < 3
+        retried += 1
+        sleep 0.5
+        retry
+      else
+        raise e
+      end
+    end
   end
 
   def self.symbolize_keys(old_hash)
